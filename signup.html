@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/desk.css">
+    <link rel="stylesheet" href="css/tab.css">
+    <link rel="stylesheet" href="css/mobile.css">
+    <script src="js/script.js"></script>
+    <title>Sign-Up</title>
+    <link rel="icon" href="img/icon.png" type="icon" sizes="16x16">
+</head>
+<body>
+    <header class="showcase bg-sign-in">
+        <div class="top">
+            <a href="index.html"><img src="img/logoo.png" alt="logo" class="logo"></a>        
+        </div>
+        <div class="sign">
+            <div class="bg bg-up"></div>
+            <div class="s-content">
+            <h3>Sign Up</h3>
+            <input type="text" class="f-name" id="f-name" placeholder="First Name">
+            <input type="email" class="email" id="email" placeholder="Email Address">
+            <input type="password" class="pass" id="pass" placeholder="Password">
+            <div class="l-button sign-btn" id="sign-up-btn">Sign up</div>
+            <p id="swarning"></p>
+            <p id="lwarning"></p>
+            <p>New to Netflix? <a href="signin.html">Sign in now</a></p>
+            <p>This page is protected by google reCHAPTCHA.</p>
+            </div>
+        </div>
+    </header>
+    <footer>
+    <div include-html="includes/footer.html"></div>
+    <script>includeHTML();</script> 
+    </footer>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+          apiKey: "AIzaSyD17hqZXQ5xOgY-YGm6SWcmCiQmoNfmAks",
+          authDomain: "netflix-clone-1998r.firebaseapp.com",
+          databaseURL: "https://netflix-clone-1998r-default-rtdb.firebaseio.com",
+          projectId: "netflix-clone-1998r",
+          storageBucket: "netflix-clone-1998r.appspot.com",
+          messagingSenderId: "606358243141",
+          appId: "1:606358243141:web:333d33facc33cad8e7a02c",
+          measurementId: "G-46STD5J3DT"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+        const auth = getAuth(app);
+
+        import { getDatabase, ref, set, get, child, update, remove} from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
+        const db = getDatabase();
+        //refrence
+        var uname=document.getElementById("f-name");
+        var email=document.getElementById("email");
+        var password=document.getElementById("pass");
+
+        var supbtn=document.getElementById("sign-up-btn");
+        //submit
+        function insertData(){
+            createUserWithEmailAndPassword(auth, email.value, password.value)
+            .then((userCredential) => {
+                    // Signed in 
+                    document.getElementById("swarning").innerHTML="&#x26A0 You successfully Signed-Up "+uname.value+".<br> now go back to Sign-In page.";
+                    document.getElementById("swarning").style.display="block";
+                    document.getElementById("lwarning").style.display="none";
+                    // ...
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    document.getElementById("lwarning").innerHTML="&#x26A0 Email Already Exists";
+                    document.getElementById("lwarning").style.display="block";
+                    document.getElementById("swarning").style.display="none";
+                    // ..
+                });
+        }
+        //event
+        supbtn.addEventListener('click', insertData);
+      </script>
+</body>
+</html>
